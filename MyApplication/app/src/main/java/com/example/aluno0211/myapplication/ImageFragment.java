@@ -31,7 +31,7 @@ public class ImageFragment extends Fragment {
         View layoutView = inflater.inflate(R.layout.fragment_image, container,
                 false);
         View tv = layoutView.findViewById(R.id.text);
-        ((TextView) tv).setText("Produtos #" + fragVal);
+        ((TextView) tv).setText("Venda de Produtos");
         return layoutView;
     }
 }

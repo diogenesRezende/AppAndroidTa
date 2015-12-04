@@ -1,14 +1,12 @@
 package model;
 
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-
 
 import com.google.gson.Gson;
-
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -22,37 +20,31 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 
 
-/**
- * Created by Diego on 28/10/2015.
- */
-public class HttpUtilUnivas extends AsyncTask<String, Void, HashMap>{
+public class HttpUtilUnivas extends AsyncTask<String, Void, ServerDetail> {
 
     private Context context;
+    private ProgressDialog progressDialog;
     private int id =1;
+
 
     public HttpUtilUnivas(Context context) {
         this.context=context;
-
         Log.d("HttpUtilUnivas", "Construtor");
     }
 
     @Override
     protected void onPreExecute() {
-
-
+        progressDialog = ProgressDialog.show(this.context,"Aguarde um Instante!","Buscando o estoque!");
     }
 
     @Override
-    protected HashMap doInBackground(String... strings) {
+    protected ServerDetail doInBackground(String... strings) {
 
         String urlTeste = "http://diogenesrezende.tk:8080/WsAppTa/rest/produtos/" + id;
 
+       ServerDetail result = null;
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet request = new HttpGet();
@@ -64,22 +56,20 @@ public class HttpUtilUnivas extends AsyncTask<String, Void, HashMap>{
 
             Reader reader = new InputStreamReader(content);
             Gson gson = new Gson();
-            HashMap result = gson.fromJson(reader, HashMap.class);
-
-            return result;
-
-                Log.d("Disciplina", " - ");
-            } catch (URISyntaxException e1) {
-                e1.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            result = gson.fromJson(reader, ServerDetail.class);
+//            retorno =
+        } catch (URISyntaxException e1) {
+            e1.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
-    protected void onPostExecute(String[] strings) {
-
+    protected void onPostExecute(ServerDetail hashMap) {
+        progressDialog.hide();
     }
 }

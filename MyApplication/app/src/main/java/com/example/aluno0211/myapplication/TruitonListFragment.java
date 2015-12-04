@@ -1,8 +1,6 @@
 package com.example.aluno0211.myapplication;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -15,24 +13,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import model.Detalhes;
+import model.HttpUtilUnivas;
 import model.ProdutoDAO;
 import model.Produtos;
+import model.ServerDetail;
 
 public class TruitonListFragment extends ListFragment{
     int fragNum;
-    String arr[] = { "Produto 1", "Produto 2", "Produto 3", "Produto 4", "Produto 5" };
-    String desc[] = { "Desc Produto 1", "Desc Produto 2", "Desc Produto 3", "Desc Produto 4", "Desc Produto 5" };
-    //ProdutoDAO pDAO = new ProdutoDAO(TruitonListFragment.this.getContext());
-    //List<Produtos> list = pDAO.getAllProdutos();
-    //List<String> produtos = new ArrayList<>();
-
-    /*private void createList(){
-        for (int i = 0; i < list.size(); i++) {
-            produtos.add((list.get(i).getNome()+" - "+list.get(i).getPreco()));
-        }
-    }*/
+    //String arr[] = { "Produto 1", "Produto 2", "Produto 3", "Produto 4", "Produto 5" };
+    //String desc[] = { "Desc Produto 1", "Desc Produto 2", "Desc Produto 3", "Desc Produto 4", "Desc Produto 5" };
+    List<String> detalhes;
 
     static TruitonListFragment init(int val) {
         TruitonListFragment truitonList = new TruitonListFragment();
@@ -64,31 +59,59 @@ public class TruitonListFragment extends ListFragment{
         View layoutView = inflater.inflate(R.layout.fragment_pager_list,
                 container, false);
         View tv = layoutView.findViewById(R.id.text);
-        ((TextView) tv).setText("Truiton Fragment #" + fragNum);
+        ((TextView) tv).setText("Venda de Produtos #" + fragNum);
         return layoutView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ProdutoDAO pDAO = new ProdutoDAO(this.getActivity());
+
+        List<Produtos> list = pDAO.getAllProdutos();
+        List<String> produtos = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            produtos.add((list.get(i).getNome()+" - "+list.get(i).getPreco()));
+        }
+
+        List<Detalhes> list2 = pDAO.getAllDetalhes();
+        detalhes = new ArrayList<>();
+        for (int i = 0; i < list2.size(); i++) {
+            detalhes.add(list2.get(i).getDetalhes());
+        }
+
         setListAdapter(new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, arr));
+                android.R.layout.simple_list_item_1, produtos));
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, final long id) {
         Log.i("Produto: ", "Item clicked: " + id);
         final long id2 = id;
+        Integer i = (int) (long) id2;
+        HttpUtilUnivas task = new HttpUtilUnivas(this.getContext());
+
+       ServerDetail resultTask = null;
+        try {
+            resultTask = task.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        int nada = resultTask.getQtdeEstoque();
+
+
+        Log.d(getTag(),"foi");
         new AlertDialog.Builder(this.getContext())
                 .setTitle("Confirmação de compra")
-                .setMessage("Detalhes do produto:")
+                .setMessage("Detalhes do produto: " + detalhes.get(i))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Integer i = (int) (long) id2;
                         Log.i("YES ", "Item clicked: " + id2);
-                        Log.i("DESCRIPTION ", "Item clicked: " + desc[i]);
-                        /*ClasseDiogenes cD = new ..;
-                        if(cD.conecta(id))? deu certo : errado;*/
+                        Log.i("DESCRIPTION ", "Item clicked: " + detalhes);
+//                        HttpUtilUnivas task = new HttpUtilUnivas(this.getContext())
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -98,5 +121,6 @@ public class TruitonListFragment extends ListFragment{
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+
     }
 }

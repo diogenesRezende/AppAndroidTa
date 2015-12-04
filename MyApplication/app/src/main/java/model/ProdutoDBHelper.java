@@ -30,7 +30,7 @@ public class ProdutoDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String drop = " DROP TABLE " + ProdutoContract.PRODUTO_TABLE;
+        String drop = "DROP TABLE " + ProdutoContract.PRODUTO_TABLE;
         db.execSQL(drop);
         String CREATE_PRODUTO_TABLE = "Create Table " + ProdutoContract.PRODUTO_TABLE + " ("
                 +ProdutoContract.ColumnP.ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -43,81 +43,81 @@ public class ProdutoDBHelper extends SQLiteOpenHelper {
                 +ProdutoContract.ColumnD.ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +ProdutoContract.ColumnD.DETALHE + " TEXT NOT NULL"
                 + " )";
-        db.execSQL(CREATE_PRODUTO_TABLE);
+        db.execSQL(CREATE_DETALHES_TABLE);
 
         // --------- Produto
         ContentValues c = new ContentValues();
         c.put(ProdutoContract.ColumnP.NOME, "Produto 1");
         c.put(ProdutoContract.ColumnP.PRECO, 10.0);
 
-        SQLiteDatabase dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.PRODUTO_TABLE, null, c);
+        //SQLiteDatabase dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.PRODUTO_TABLE, null, c);
 
         // ---------
         c = new ContentValues();
         c.put(ProdutoContract.ColumnP.NOME, "Produto 2");
         c.put(ProdutoContract.ColumnP.PRECO, 20.0);
 
-        dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.PRODUTO_TABLE, null, c);
+        //dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.PRODUTO_TABLE, null, c);
 
         // ---------
         c = new ContentValues();
         c.put(ProdutoContract.ColumnP.NOME, "Produto 3");
         c.put(ProdutoContract.ColumnP.PRECO, 30.0);
 
-        dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.PRODUTO_TABLE, null, c);
+        //dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.PRODUTO_TABLE, null, c);
 
         // ---------
         c = new ContentValues();
         c.put(ProdutoContract.ColumnP.NOME, "Produto 4");
         c.put(ProdutoContract.ColumnP.PRECO, 11.0);
 
-        dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.PRODUTO_TABLE, null, c);
+        //dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.PRODUTO_TABLE, null, c);
 
         // ---------
         c = new ContentValues();
         c.put(ProdutoContract.ColumnP.NOME, "Produto 5");
         c.put(ProdutoContract.ColumnP.PRECO, 12.0);
 
-        dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.PRODUTO_TABLE, null, c);
+        //dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.PRODUTO_TABLE, null, c);
 
         // --------- Detalhes
         c = new ContentValues();
         c.put(ProdutoContract.ColumnD.DETALHE, "Detalhes do produto 1");
 
-        dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.DETALHES_TABLE, null, c);
+        //dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.DETALHES_TABLE, null, c);
 
         // ---------
         c = new ContentValues();
         c.put(ProdutoContract.ColumnD.DETALHE, "Detalhes do produto 2");
 
-        dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.DETALHES_TABLE, null, c);
+        //dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.DETALHES_TABLE, null, c);
 
         // ---------
         c = new ContentValues();
         c.put(ProdutoContract.ColumnD.DETALHE, "Detalhes do produto 3");
 
-        dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.DETALHES_TABLE, null, c);
+        //dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.DETALHES_TABLE, null, c);
 
         // ---------
         c = new ContentValues();
         c.put(ProdutoContract.ColumnD.DETALHE, "Detalhes do produto 4");
 
-        dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.DETALHES_TABLE, null, c);
+        //dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.DETALHES_TABLE, null, c);
 
         // ---------
         c = new ContentValues();
         c.put(ProdutoContract.ColumnD.DETALHE, "Detalhes do produto 5");
 
-        dB = super.getWritableDatabase();
-        dB.insert(ProdutoContract.DETALHES_TABLE, null, c);
+        //dB = super.getWritableDatabase();
+        db.insert(ProdutoContract.DETALHES_TABLE, null, c);
     }
 }

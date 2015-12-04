@@ -13,8 +13,6 @@ import android.widget.Button;
 
 import com.example.aluno0211.myapplication.R;
 
-import model.HttpUtilUnivas;
-
 public class MainActivity extends FragmentActivity {
     static final int ITEMS = 2;
     MyAdapter mAdapter;
@@ -41,8 +39,6 @@ public class MainActivity extends FragmentActivity {
                 mPager.setCurrentItem(ITEMS - 1);
             }
         });
-
-        new HttpUtilUnivas(this).execute();
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {
