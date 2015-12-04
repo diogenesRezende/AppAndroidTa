@@ -26,11 +26,12 @@ public class HttpUtilUnivas extends AsyncTask<String, Void, ServerDetail> {
 
     private Context context;
     private ProgressDialog progressDialog;
-    private int id =1;
+    private int id;
 
 
-    public HttpUtilUnivas(Context context) {
+    public HttpUtilUnivas(Context context, int id) {
         this.context=context;
+        this.id =id;
         Log.d("HttpUtilUnivas", "Construtor");
     }
 
@@ -57,7 +58,6 @@ public class HttpUtilUnivas extends AsyncTask<String, Void, ServerDetail> {
             Reader reader = new InputStreamReader(content);
             Gson gson = new Gson();
             result = gson.fromJson(reader, ServerDetail.class);
-//            retorno =
         } catch (URISyntaxException e1) {
             e1.printStackTrace();
         } catch (ClientProtocolException e) {

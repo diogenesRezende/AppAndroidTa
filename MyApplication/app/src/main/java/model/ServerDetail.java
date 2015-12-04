@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Created by diogenes on 04/12/15.
  */
-public class ServerDetail extends HashMap {
+public class ServerDetail{
     private int idProduto;
     private int qtdeEstoque;
 

@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 public class ProdutoContract {
 
     public static final String DB_NAME = "produto.db";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
 
     public static final String PRODUTO_TABLE = "PRODUTO";
     public static final String[] COLUMN_NAMES_P = {

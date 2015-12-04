@@ -1,6 +1,7 @@
 package com.example.aluno0211.myapplication;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -88,8 +89,8 @@ public class TruitonListFragment extends ListFragment{
     public void onListItemClick(ListView l, View v, int position, final long id) {
         Log.i("Produto: ", "Item clicked: " + id);
         final long id2 = id;
-        Integer i = (int) (long) id2;
-        HttpUtilUnivas task = new HttpUtilUnivas(this.getContext());
+        final Integer i = (int) (long) id2;
+        HttpUtilUnivas task = new HttpUtilUnivas(this.getContext(),(i+1));
 
        ServerDetail resultTask = null;
         try {
@@ -100,10 +101,11 @@ public class TruitonListFragment extends ListFragment{
             e.printStackTrace();
         }
 
-        int nada = resultTask.getQtdeEstoque();
+        final int qtdeEstoque = resultTask.getQtdeEstoque();
 
 
-        Log.d(getTag(),"foi");
+        Log.d(getTag(), "foi");
+        final Context c = this.getContext();
         new AlertDialog.Builder(this.getContext())
                 .setTitle("Confirmação de compra")
                 .setMessage("Detalhes do produto: " + detalhes.get(i))
@@ -111,7 +113,33 @@ public class TruitonListFragment extends ListFragment{
                     public void onClick(DialogInterface dialog, int which) {
                         Log.i("YES ", "Item clicked: " + id2);
                         Log.i("DESCRIPTION ", "Item clicked: " + detalhes);
-//                        HttpUtilUnivas task = new HttpUtilUnivas(this.getContext())
+                        if (qtdeEstoque > 0) {
+                            Log.i("Success: ", "qtdeEstoque: " + qtdeEstoque);
+                            new AlertDialog.Builder(c)
+                                    .setTitle("Confirmação de compra")
+                                    .setMessage("Compra confirmada!")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        } else {
+                            Log.i("Fail: ", "qtdeEstoque: " + qtdeEstoque);
+                            new AlertDialog.Builder(c)
+                                    .setTitle("Confirmação de compra")
+                                    .setMessage("Produto em falta no estoque!")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        }
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
